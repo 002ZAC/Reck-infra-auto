@@ -18,7 +18,6 @@ jobs:
     - name: App_Gateway_Deployment_Install
       run: |
         az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
-        az account set --subscription $(secrets.SUBSCRIPTIONS_ID)
         deploymentName='MyDeployment'
             sed -i "s|{{.appgatewayname}}|$(APP_GATEWAY_NAME)|" AppGateway.json
             sed -i "s|{{.appgatewaypublicip}}|$(APPGATEWAY_PUBLICIP)|" AppGateway.json
@@ -27,4 +26,4 @@ jobs:
             sed -i "s|{{.appgatewayexternalid}}|$(APP_GATEWAY_PublicIPExternalID)|" AppGateway.json                        
             sed -i "s|{{.location}}|$(LOCATION_NAME)|" AppGateway.json
             cat AppGateway.json
-            az deployment group create --resource-group $(resource-group-name) --name $deploymentName --template-file AppGateway.json
+            az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file AppGateway.json
