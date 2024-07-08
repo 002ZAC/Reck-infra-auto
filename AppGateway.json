@@ -21,10 +21,6 @@
             "defaultValue": "{{.appgatewayvnet}}",
             "type": "String"
         },
-        "myAppGatewaySubNet_name": {
-            "defaultValue": "{{.appgatewaysubnet}}",
-            "type": "String"
-        },
         "myAppGatewayPublicIPExternalID_name": {
             "defaultValue": "{{.appgatewayexternalid}}",
             "type": "String"
@@ -67,7 +63,7 @@
                         "name": "appGatewayIpConfig",
                         "properties": {
                             "subnet": {
-                                "id": "[concat(parameters('myAppGatewayVNet_name'), '/subnets/parameters('myAppGatewaySubNet_name')')]"
+                                "id": "[concat(parameters('myAppGatewayVNet_name'), '/subnets/{{.appgatewaysubnet}}')]"
                             }
                         }
                     }
