@@ -19,8 +19,10 @@ jobs:
       run: |
         az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
         deploymentName='MyDeployment'
-        sed -i "s|{{.appserviceplanname}}|${{ vars.APP_SERVICE_PLAN_NAME }}|" Web_App_UI.json
-        sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" Web_App_UI.json
-        sed -i "s|{{.webappname}}|${{ vars.WEB_APP_UI_NAME }}|" Web_App_UI.json
-        cat Web_App_UI.json   
-        az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file Web_App_UI.json
+            sed -i "s|{{.appgatewayname}}|$(AppGateway-Name)|" AppGateway.json
+            sed -i "s|{{.appgatewaypublicip}}|$(AppGateway-PublicIP)|" AppGateway.json
+            sed -i "s|{{.appgatewayvnet}}|$(AppGateway-VNet)|" AppGateway.json
+            sed -i "s|{{.appgatewayexternalid}}|$(AppGateway-PublicIPExternalID)|" AppGateway.json                        
+            sed -i "s|{{.location}}|$(location)|" AppGateway.json
+            cat AppGateway.json
+            az deployment group create --resource-group $(resource-group-name) --name $deploymentName --template-file AppGateway.json
