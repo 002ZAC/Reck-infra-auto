@@ -21,6 +21,10 @@
             "defaultValue": "{{.appgatewayvnet}}",
             "type": "String"
         },
+        "myAppGatewaySubNet_name": {
+            "defaultValue": "{{.appgatewaysubnet}}",
+            "type": "String"
+        },
         "myAppGatewayPublicIPExternalID_name": {
             "defaultValue": "{{.appgatewayexternalid}}",
             "type": "String"
@@ -63,7 +67,7 @@
                         "name": "appGatewayIpConfig",
                         "properties": {
                             "subnet": {
-                                "id": "[concat(parameters('myAppGatewayVNet_name'), '/subnets/snet-iwi2p-ci-perftest-dev-weurope-001')]"
+                                "id": "[concat(parameters('myAppGatewayVNet_name'), '/subnets/parameters('myAppGatewaySubNet_name')')]"
                             }
                         }
                     }
