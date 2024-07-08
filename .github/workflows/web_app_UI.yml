@@ -9,7 +9,7 @@ on:
 jobs:
   App_Service_Plan:
     runs-on: ubuntu-latest
-    if: ${{ vars.INFRA_STATUS_APP_SERVICE_PLAN == 'YES' }}
+    if: ${{ vars.INFRA_WEB_APP_UI_DEPLOYMENT == 'YES' }}
 
     steps:
     - name: Checkout repository
