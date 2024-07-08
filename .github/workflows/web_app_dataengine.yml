@@ -21,6 +21,6 @@ jobs:
         deploymentName='MyDeployment'
         sed -i "s|{{.appserviceplanname}}|${{ vars.APP_SERVICE_PLAN_NAME }}|" Web_App_Dataengine.json
         sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" Web_App_Dataengine.json
-        sed -i "s|{{.webappname}}|${{ vars.WEB_APP_DATAENGINE_NAME }}|" Web_App_Dataengine.json
+        sed -i "s|{{.dataengineappname}}|${{ vars.WEB_APP_DATAENGINE_NAME }}|" Web_App_Dataengine.json
         cat Web_App_Dataengine.json   
         az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file Web_App_Dataengine.json
