@@ -19,11 +19,11 @@ jobs:
       run: |
         az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
         deploymentName='MyDeployment'
-            sed -i "s|{{.appgatewayname}}|${{ vars.APP_GATEWAY_NAME }}|" AppGateway.json.json
-            sed -i "s|{{.appgatewaypublicip}}|${{ vars.APPGATEWAY_PUBLICIP }}|" AppGateway.json.json
-            sed -i "s|{{.appgatewayvnet}}|${{ vars.APP_GATEWAY_VNET }}|" AppGateway.json.json
-            sed -i "s|{{.appgatewaysubnet}}|${{ vars.APP_GATEWAY_SUBNET }}|" AppGateway.json.json
-            sed -i "s|{{.appgatewayexternalid}}|${{ vars.APP_GATEWAY_PUBLICIPEXTERNALID }}|" AppGateway.json.json                        
-            sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" AppGateway.json.json
+            sed -i "s|{{.appgatewayname}}|${{ vars.APP_GATEWAY_NAME }}|" AppGateway.json
+            sed -i "s|{{.appgatewaypublicip}}|${{ vars.APPGATEWAY_PUBLICIP }}|" AppGateway.json
+            sed -i "s|{{.appgatewayvnet}}|${{ vars.APP_GATEWAY_VNET }}|" AppGateway.json
+            sed -i "s|{{.appgatewaysubnet}}|${{ vars.APP_GATEWAY_SUBNET }}|" AppGateway.json
+            sed -i "s|{{.appgatewayexternalid}}|${{ vars.APP_GATEWAY_PUBLICIPEXTERNALID }}|" AppGateway.json                       
+            sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" AppGateway.json
             cat AppGateway.json
             az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file AppGateway.json
