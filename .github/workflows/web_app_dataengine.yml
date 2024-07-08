@@ -1,1 +1,26 @@
+name: ARM Template 
 
+on:
+  push:
+    branches:
+      - none
+  workflow_dispatch:
+
+jobs:
+  Web_App_Deployment:
+    runs-on: ubuntu-latest
+    if: ${{ vars.INFRA_WEB_APP_DATAENGINE_DEPLOYMENT == 'YES' }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: App_Service_Plan_Install
+      run: |
+        az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
+        deploymentName='MyDeployment'
+        sed -i "s|{{.appserviceplanname}}|${{ vars.APP_SERVICE_PLAN_NAME }}|" Web_App_Dataengine.json
+        sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" Web_App_Dataengine.json
+        sed -i "s|{{.webappname}}|${{ vars.WEB_APP_UI_NAME }}|" Web_App_Dataengine.json
+        cat Web_App_Dataengine.json   
+        az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file Web_App_Dataengine.json
