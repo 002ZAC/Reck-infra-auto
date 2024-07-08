@@ -1,1 +1,47 @@
+name: ARM Template 
 
+on:
+  push:
+    branches:
+      - none
+  workflow_dispatch:
+
+jobs:
+  App_Service_Plan:
+    runs-on: ubuntu-latest
+    if: ${{ vars.INFRA_STATUS_CONTAINER_REGISTER == 'YES' }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: App_Service_Plan_Install
+      run: |
+        az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
+        deploymentName='MyDeployment'
+        sed -i "s|{{.containerregistryname}}|${{ vars.CONTAINERREGISTER_NAME }}|" App_Service_Plan.json
+        sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" App_Service_Plan.json   
+        cat App_Service_Plan.json   
+        az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file App_Service_Plan.json
+
+  KeyVault:
+    runs-on: ubuntu-latest
+    if: ${{ vars.INFRA_STATUS_KEYVAULT == 'YES' }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: KeyVault_Install
+      run: |
+        az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
+        deploymentName='MyDeployment'
+        sed -i "s|{{.KEYVAULTNAME}}|${{ vars.KEYVAULT_NAME }}|" KeyVault.json
+        sed -i "s|{{.TENANTID}}|${{ secrets.TENANT_ID }}|" KeyVault.json
+        sed -i "s|{{.LOCATIONNAME}}|${{ vars.LOCATION_NAME }}|" KeyVault.json
+        sed -i "s|{{.SUBSCRIPTIONSID}}|${{ secrets.SUBSCRIPTIONS_ID }}|" KeyVault.json
+        sed -i "s|{{.VNETRESOURCEGROUPNAME}}|${{ vars.VNET_RESOURCEGROUP_NAME }}|" KeyVault.json
+        sed -i "s|{{.VNETNAME}}|${{ vars.VNET_NAME }}|" KeyVault.json
+        sed -i "s|{{.SUBNETNAME}}|${{ vars.SUBNET_NAME }}|" KeyVault.json
+        cat KeyVault.json
+        az deployment group create --resource-group S2P_GitHub_PoC --name MyDeployment --template-file KeyVault.json
