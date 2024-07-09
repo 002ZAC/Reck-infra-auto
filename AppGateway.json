@@ -63,7 +63,7 @@
                         "name": "appGatewayIpConfig",
                         "properties": {
                             "subnet": {
-                                "id": "[concat('/subscriptions/d6233897-5c9f-47f9-8507-6d4ada2d5183/resourceGroups/I2P_Platform_Demo/providers/Microsoft.Network/virtualNetworks/s2p-demo-vnet' , '/subnets/{{.appgatewaysubnet}}')]"
+                                "id": "[concat(parameters('myAppGatewayVNet_name') , '/subnets/{{.appgatewaysubnet}}')]"
                             }
                         }
                     }
