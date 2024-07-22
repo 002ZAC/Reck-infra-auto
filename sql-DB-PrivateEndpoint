@@ -27,6 +27,13 @@
                 "description": "Administrator password for the SQL server."
             }
         },
+        "location": {
+            "type": "String",
+            "defaultValue": "{{.location}}",
+            "metadata": {
+                "description": "Location for the SQL server and database resources."
+            }
+        },
         "virtualNetworks_subnet": {
             "type": "String",
             "defaultValue": "{{.db_subnet_name}}",
@@ -34,13 +41,6 @@
                 "description": "Subnet for the SQL server and database resources."
             }
         },
-        "location": {
-            "type": "String",
-            "defaultValue": "{{.location}}",
-            "metadata": {
-                "description": "Location for the SQL server and database resources."
-            }
-        },  
         "sql_private_endpoint_name": {
             "defaultValue": "{{.sql-private-endpoint-name}}",
             "type": "String"
