@@ -22,6 +22,20 @@
             "metadata": {
                 "description": "Name of the App Service"
             }
+        },
+	"virtualNetworks_vnet_id": {
+	    "defaultValue": "{{.sql_virtualNetworks_vnet_id}}", 
+            "type": "string",
+            "metadata": {
+                "description": "Location for the resources"
+            }
+        },
+	"virtualNetworks_subnet": {
+	    "defaultValue": "{{.sql_virtualNetworks_subnet}}", 
+            "type": "string",
+            "metadata": {
+                "description": "Location for the resources"
+            }
         }
     },
     "variables": {
@@ -64,6 +78,7 @@
                 "redundancyMode": "None",
                 "publicNetworkAccess": "Enabled",
                 "storageAccountRequired": false,
+		"virtualNetworkSubnetId": "[concat(parameters('virtualNetworks_vnet_id'), '/subnets/',parameters('virtualNetworks_subnet'))]",
                 "keyVaultReferenceIdentity": "SystemAssigned"
 
             }
