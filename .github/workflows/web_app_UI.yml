@@ -22,7 +22,7 @@ jobs:
         sed -i "s|{{.appserviceplanname}}|${{ vars.APP_SERVICE_PLAN_NAME }}|" Web_App_UI.json
         sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" Web_App_UI.json
         sed -i "s|{{.webappname}}|${{ vars.WEB_APP_UI_NAME }}|" Web_App_UI.json
-        sed -i "s|{{.sql_virtualNetworks_vnet_id}}|${{ vars.SQL_VNET_ID }}|" Web_App_UI.json
-        sed -i "s|{{.sql_virtualNetworks_subnet}}|${{ vars.SQL_SUBNET_NAME }}|" Web_App_UI.json
+        sed -i "s|{{.virtualNetworks_id}}|${{ vars.WEBAPP_VNET_ID }}|" Web_App_UI.json
+        sed -i "s|{{.virtualNetworks_subnet_Name}}|${{ vars.WEBAPP_SUBNET_NAME }}|" Web_App_UI.json
         cat Web_App_UI.json   
         az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file Web_App_UI.json
