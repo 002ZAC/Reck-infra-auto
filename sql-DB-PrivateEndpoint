@@ -41,16 +41,16 @@
                 "description": "Location for the SQL server and database resources."
             }
         },  
-        "privateEndpoints_private_endpoint_ci_db_name": {
-            "defaultValue": "private-endpoint-002zac-db",
+        "sql_private_endpoint_name": {
+            "defaultValue": "{{.sql-private-endpoint-name}}",
             "type": "String"
         },
         "sql_server_externalid": {
-            "defaultValue": "/subscriptions/d6233897-5c9f-47f9-8507-6d4ada2d5183/resourceGroups/rg-ci-devops-infra-test/providers/Microsoft.Sql/servers/sqldbtestserver002zac",
+            "defaultValue": "{{.sql-server-id}}",
             "type": "String"
         },
         "sql_vnet_externalid": {
-            "defaultValue": "/subscriptions/d6233897-5c9f-47f9-8507-6d4ada2d5183/resourceGroups/I2P_Platform_Demo/providers/Microsoft.Network/virtualNetworks/s2p-demo-vnet",
+            "defaultValue": "{{.sql-vnet-id}}",
             "type": "String"
         }
     },
@@ -100,13 +100,13 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('mySQLServer_name'))]"
             ],
-            "name": "[parameters('privateEndpoints_private_endpoint_ci_db_name')]",
+            "name": "[parameters('sql_private_endpoint_name')]",
             "location": "westeurope",
             "properties": {
                 "privateLinkServiceConnections": [
                     {
-                        "name": "[parameters('privateEndpoints_private_endpoint_ci_db_name')]",
-                        "id": "[concat(resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_private_endpoint_ci_db_name')), concat('/privateLinkServiceConnections/', parameters('privateEndpoints_private_endpoint_ci_db_name')))]",
+                        "name": "[parameters('sql_private_endpoint_name')]",
+                        "id": "[concat(resourceId('Microsoft.Network/privateEndpoints', parameters('sql_private_endpoint_name')), concat('/privateLinkServiceConnections/', parameters('sql_private_endpoint_name')))]",
                         "properties": {
                             "privateLinkServiceId": "[parameters('sql_server_externalid')]",
                             "groupIds": [
@@ -122,7 +122,7 @@
                     }
                 ],
                 "manualPrivateLinkServiceConnections": [],
-                "customNetworkInterfaceName": "[concat(parameters('privateEndpoints_private_endpoint_ci_db_name'), '-nic')]",
+                "customNetworkInterfaceName": "[concat(parameters('sql_private_endpoint_name'), '-nic')]",
                 "subnet": {
                     "id": "[concat(parameters('sql_vnet_externalid'), '/subnets/',parameters('virtualNetworks_subnet'))]"
                 },
@@ -133,9 +133,9 @@
         {
             "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
             "apiVersion": "2023-11-01",
-            "name": "[concat(parameters('privateEndpoints_private_endpoint_ci_db_name'), '/default')]",
+            "name": "[concat(parameters('sql_private_endpoint_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_private_endpoint_ci_db_name'))]"
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('sql_private_endpoint_name'))]"
             ],
             "properties": {
                 "privateDnsZoneConfigs": []
