@@ -19,14 +19,14 @@ jobs:
       run: |
         az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
         deploymentName='MyDeployment'
-        sed -i "s|{{.servername}}|${{ vars.SQL_SERVER_NAME }}|" SQL-db.json
-        sed -i "s|{{.databasename}}|${{ vars.SQL_DB_NAME }}|" SQL-db.json
-        sed -i "s|{{.sqlusername}}|${{ vars.SQL_SERVER_USER_NAME }}|" SQL-db.json
-        sed -i "s|{{.sqlpassword}}|${{ vars.SQL_SERVER_PASSWORD_NAME }}|" SQL-db.json
-        sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" SQL-db.json
-        sed -i "s|{{.db_subnet_name}}|${{ vars.SQL_SUBNET_NAME }}|" SQL-db.json
-        sed -i "s|{{.sql-private-endpoint-name}}|${{ vars.SQL_PRIVATE_ENDPOINT_NAME }}|" SQL-db.json
-        sed -i "s|{{.sql-server-id}}|${{ vars.SQL_SERVER_ID }}|" SQL-db.json
-        sed -i "s|{{.sql-vnet-id}}|${{ vars.SQL_VNET_ID }}|" SQL-db.json
-        cat SQL-db.json   
-        az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file SQL-db.json
+        sed -i "s|{{.servername}}|${{ vars.SQL_SERVER_NAME }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.databasename}}|${{ vars.SQL_DB_NAME }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.sqlusername}}|${{ vars.SQL_SERVER_USER_NAME }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.sqlpassword}}|${{ vars.SQL_SERVER_PASSWORD_NAME }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.db_subnet_name}}|${{ vars.SQL_SUBNET_NAME }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.sql-private-endpoint-name}}|${{ vars.SQL_PRIVATE_ENDPOINT_NAME }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.sql-server-id}}|${{ vars.SQL_SERVER_ID }}|" sql-DB-PrivateEndpoint.json
+        sed -i "s|{{.sql-vnet-id}}|${{ vars.SQL_VNET_ID }}|" sql-DB-PrivateEndpoint.json
+        cat sql-DB-PrivateEndpoint.json   
+        az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file sql-DB-PrivateEndpoint.json
