@@ -24,14 +24,14 @@
             }
         },
 	"virtualNetworks_vnet_id": {
-	    "defaultValue": "{{.sql_virtualNetworks_vnet_id}}", 
+	    "defaultValue": "{{.virtualNetworks_id}}", 
             "type": "string",
             "metadata": {
                 "description": "Location for the resources"
             }
         },
 	"virtualNetworks_subnet": {
-	    "defaultValue": "{{.sql_virtualNetworks_subnet}}", 
+	    "defaultValue": "{{.virtualNetworks_subnet_Name}}", 
             "type": "string",
             "metadata": {
                 "description": "Location for the resources"
