@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkSecurityGroups_nsg_rule_test_subnet_name": {
+            "defaultValue": "nsg-rule-002ZAC",
+            "type": "String"
+        },
+        "virtualNetworkName": {
+            "defaultValue": "s2p-demo-vnet",
+            "type": "String"
+        },
+        "subnetName": {
+            "defaultValue": "subnet-db",
+            "type": "String"
+        },
+        "subnetAddressPrefix": {
+            "defaultValue": "172.1.0.0/24",
+            "type": "String"
+        },
+        "location": {
+            "defaultValue": "West Europe",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2023-11-01",
+            "name": "[parameters('networkSecurityGroups_nsg_rule_test_subnet_name')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": []
+            }
+        },
+		{
+            "apiVersion": "2018-03-01",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_nsg_rule_test_subnet_name'))]"
+            ],
+            "name": "[concat(parameters('virtualNetworkName'), '/', parameters('subnetName'))]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+            "addressPrefix": "[parameters('subnetAddressPrefix')]",
+            "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'new-nsg')]"
+                }
+            }
+        }
+    ]
+}
