@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  App_Gateway_Deployment:
+  NSG_Deployment:
     runs-on: ubuntu-latest
     if: ${{ vars.INFRA_NSG_RULE == 'YES' }}
 
@@ -19,11 +19,10 @@ jobs:
       run: |
         az login --service-principal -u ${{ secrets.SERVICE_PRINCIPAL_ID }} -p ${{ secrets.SERVICE_PRINCIPAL_KEY }} --tenant ${{ secrets.TENANT_ID }}
         deploymentName='MyDeployment'
-            sed -i "s|{{.appgatewayname}}|${{ vars.APP_GATEWAY_NAME }}|" AppGateway.json
-            sed -i "s|{{.appgatewaypublicip}}|${{ vars.APPGATEWAY_PUBLICIP }}|" AppGateway.json
-            sed -i "s|{{.appgatewayvnet}}|${{ vars.APP_GATEWAY_VNET }}|" AppGateway.json
-            sed -i "s|{{.appgatewaysubnet}}|${{ vars.APP_GATEWAY_SUBNET }}|" AppGateway.json
-            sed -i "s|{{.appgatewayexternalid}}|${{ vars.APP_GATEWAY_PUBLICIPEXTERNALID }}|" AppGateway.json                       
-            sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" AppGateway.json
-            cat AppGateway.json
-            az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file AppGateway.json
+            sed -i "s|{{.nsg-name}}|${{ vars.NSG_NAME }}|" nsg-create.json
+            sed -i "s|{{.vnet-name}}|${{ vars.VNET_NAME }}|" nsg-create.json
+            sed -i "s|{{.subnet-name}}|${{ vars.SUBNET_NAME }}|" nsg-create.json
+            sed -i "s|{{.subnet-ip}}|${{ vars.SUBNET_IP }}|" nsg-create.json                    
+            sed -i "s|{{.location}}|${{ vars.LOCATION_NAME }}|" nsg-create.json
+            cat nsg-create.json
+            az deployment group create --resource-group ${{ vars.RESOURCEGROUP_NAME }} --name $deploymentName --template-file nsg-create.json
